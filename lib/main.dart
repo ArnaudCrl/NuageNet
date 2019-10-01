@@ -43,17 +43,26 @@ class _MyAppState extends State<MyApp> {
     var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
     //contentType: new MediaType('image', 'png'));
-
+    txt = "Calculating output ...";
     request.files.add(multipartFile);
     var response = await request.send();
+    print("status code : ");
     print(response.statusCode);
-    response.stream.transform(utf8.decoder).listen((value) {
-      print(value);
-      int l = value.length;
-      txt = value;
+    if (response.statusCode != 200) {
+      print('An error has occured :(');
+      txt = 'An error has occured :(';
+    } else {
+      print('Successfuly classified');
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+        var prediction = value.split(":")[1];
+        prediction = prediction.substring(1, prediction.length - 2);
+//        int l = value.length;
+        txt = prediction;
 
-      setState(() {});
-    });
+        setState(() {});
+      });
+    }
   }
 
   void user_signup()
@@ -86,8 +95,9 @@ class _MyAppState extends State<MyApp> {
       img = await ImagePicker.pickImage(source: ImageSource.gallery);
     }
 
-    txt = "Analysing...";
+    txt = "Converting image...";
     debugPrint(img.toString());
+    txt = "Uploading image...";
     upload(img);
     setState(() {});
   }
@@ -229,12 +239,12 @@ class _MyAppState extends State<MyApp> {
                   fontSize: 32.0,
                 ),
               ),
-              RaisedButton(
-                child: Text('User Authentication'),
-                color: Colors.white,
-
-                onPressed: () => _loginpopup(context),
-              ),
+//              RaisedButton(
+//                child: Text('User Authentication'),
+//                color: Colors.white,
+//
+//                onPressed: () => _loginpopup(context),
+//              ),
 
             ],
           ),
