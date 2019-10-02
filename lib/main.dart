@@ -55,10 +55,12 @@ class _MyAppState extends State<MyApp> {
       print('Successfuly classified');
       response.stream.transform(utf8.decoder).listen((value) {
         print(value);
-        var prediction = value.split(":")[1];
-        prediction = prediction.substring(1, prediction.length - 2);
-//        int l = value.length;
-        txt = prediction;
+        int string_length = value.length;
+        String output = value.substring(11, string_length - 2);
+        output = output.replaceAll("\\n", " ");
+        print(output);
+        txt = output;
+
       });
     }
     setState(() {});
@@ -234,15 +236,19 @@ class _MyAppState extends State<MyApp> {
                 ),
               )
                   : new Image.file(img,
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  width: MediaQuery.of(context).size.width * 0.8),
-              new Text(
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: MediaQuery.of(context).size.width * 1.0),
+              Flexible(
+                child: new Text(
                 txt,
+                  textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 32.0,
                 ),
+                ),
               ),
+
 //              RaisedButton(
 //                child: Text('User Authentication'),
 //                color: Colors.white,
