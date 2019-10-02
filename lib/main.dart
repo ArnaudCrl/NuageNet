@@ -59,10 +59,9 @@ class _MyAppState extends State<MyApp> {
         prediction = prediction.substring(1, prediction.length - 2);
 //        int l = value.length;
         txt = prediction;
-
-        setState(() {});
       });
     }
+    setState(() {});
   }
 
   void user_signup()
@@ -84,27 +83,32 @@ class _MyAppState extends State<MyApp> {
 
   void image_picker(int a) async {
     txt1 = "";
-    setState(() {
+    setState(() {});
 
-    });
     debugPrint("Image Picker Activated");
     if (a == 0){
-      img = await ImagePicker.pickImage(source: ImageSource.camera);
+      img = await ImagePicker.pickImage(
+          source: ImageSource.camera,
+          maxHeight: 224.0,
+          maxWidth: 224.0);
     }
     else{
-      img = await ImagePicker.pickImage(source: ImageSource.gallery);
+      img = await ImagePicker.pickImage(
+          source: ImageSource.gallery,
+          maxHeight: 224.0,
+          maxWidth: 224.0);
     }
 
     txt = "Converting image...";
     debugPrint(img.toString());
     txt = "Uploading image...";
     upload(img);
+
     setState(() {});
   }
 
+
   _loginpopup(BuildContext context) async {
-
-
     Alert(
         context: context,
         title: "LOGIN",
@@ -141,9 +145,9 @@ class _MyAppState extends State<MyApp> {
             ),
           )
         ]).show();
-
-
   }
+
+
   _signuppopup(BuildContext context) async {
     Alert(
         context: context,
