@@ -13,7 +13,7 @@ String txt1 = "Upload or take a picture of a cloud to classify it";
 void main() {
   runApp(new MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: "Cloud Classifier",
+    title: "Identificateur de nuages",
     home: new MyApp(),
   ));
 }
@@ -43,21 +43,21 @@ class _MyAppState extends State<MyApp> {
     var multipartFile = new http.MultipartFile('file', stream, length,
         filename: basename(imageFile.path));
     //contentType: new MediaType('image', 'png'));
-    txt = "Calculating output ...";
+    txt = "Calcul du résultat ...";
     request.files.add(multipartFile);
     var response = await request.send();
     print("status code : ");
     print(response.statusCode);
     if (response.statusCode != 200) {
-      print('An error has occured :(');
-      txt = 'An error has occured :(';
+      print("Une erreur s'est produite :(");
+      txt = "Une erreur s'est produite :(";
     } else {
       print('Successfuly classified');
       response.stream.transform(utf8.decoder).listen((value) {
         print(value);
         int string_length = value.length;
         String output = value.substring(11, string_length - 2);
-        output = output.replaceAll("\\n", " ");
+        output = output.replaceAll("\\n", "\n");
         print(output);
         txt = output;
 
@@ -101,9 +101,9 @@ class _MyAppState extends State<MyApp> {
           maxWidth: 224.0);
     }
 
-    txt = "Converting image...";
+    txt = "Conversion de l'image...";
     debugPrint(img.toString());
-    txt = "Uploading image...";
+    txt = "Upload de l'image...";
     upload(img);
 
     setState(() {});
@@ -221,7 +221,7 @@ class _MyAppState extends State<MyApp> {
     return Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new Text("Cloud Classifier"),
+        title: new Text("Identificateur de nuages"),
       ),
       body: new Container(
         child: Center(
